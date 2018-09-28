@@ -35,7 +35,7 @@ public class EventBusResourceStorage implements ResourceStorage {
             @Override
             public void handle(AsyncResult<Message<Buffer>> message) {
                 if (message.failed()) {
-                    log.warn("Got failed msg from event bus. Lets run into NPE now. _99aeb0c42d0729f088265c0_", message.cause());
+                    log.warn("Got failed msg from event bus while GET. Lets run into NPE now.", message.cause());
                     // Would be best to stop processing now. But we don't to keep backward
                     // compatibility (Will run into NPE anyway).
                 }
@@ -60,7 +60,7 @@ public class EventBusResourceStorage implements ResourceStorage {
             @Override
             public void handle(AsyncResult<Message<Buffer>> message) {
                 if (message.failed()) {
-                    log.warn("Got failed msg from event bus. Lets run into NPE now. _6bacb4666378b1ec48c3_", message.cause());
+                    log.warn("Got failed msg from event bus while PUT. Lets run into NPE now.", message.cause());
                     // Would be best to stop processing now. But we don't to keep backward
                     // compatibility (Will run into NPE anyway).
                 }
@@ -86,7 +86,7 @@ public class EventBusResourceStorage implements ResourceStorage {
             @Override
             public void handle(AsyncResult<Message<Buffer>> message) {
                 if (message.failed()) {
-                    log.warn("Got failed msg from event bus. Lets run into NPE now. _6a75a6b41eacc563a04_", message.cause());
+                    log.warn("Got failed msg from event bus while DELETE. Lets run into NPE now.", message.cause());
                     // Would be best to stop processing now. But we don't to keep backward
                     // compatibility (Will run into NPE anyway).
                 }
