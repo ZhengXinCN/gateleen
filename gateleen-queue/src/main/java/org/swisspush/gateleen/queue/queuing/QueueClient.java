@@ -205,6 +205,7 @@ public class QueueClient implements RequestQueue {
      * @param doneHandler   a handler which is called as soon as the request is written into the queue.
      */
     private void enqueue(final HttpServerRequest request, HttpRequest queuedRequest, final String queue, final Handler<Void> doneHandler) {
+        // TODO: Check request methods first. See: #249.
         vertx.eventBus().send(getRedisquesAddress(), buildEnqueueOperation(queue, queuedRequest.toJsonObject().put(QUEUE_TIMESTAMP, System.currentTimeMillis()).encode()),
                 (Handler<AsyncResult<Message<JsonObject>>>) event -> {
                     if (OK.equals(event.result().body().getString(STATUS))) {
