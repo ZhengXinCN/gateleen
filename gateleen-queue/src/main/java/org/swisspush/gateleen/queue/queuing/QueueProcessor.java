@@ -142,7 +142,7 @@ public class QueueProcessor {
      *      True if method is allowed to be enqueued. Not all methods are allowed
      *      here because we deliver only whitelisted methods.
      */
-    static boolean httpMethodIsQueueable(HttpMethod method) {
+    public static boolean httpMethodIsQueueable(HttpMethod method) {
         final boolean result;
         switch (method) {
             // We accept those methods:

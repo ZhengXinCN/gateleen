@@ -208,8 +208,9 @@ public class QueueClient implements RequestQueue {
      * @param doneHandler   a handler which is called as soon as the request is written into the queue.
      */
     private void enqueue(final HttpServerRequest request, HttpRequest queuedRequest, final String queue, final Handler<Void> doneHandler) {
-        if( !QueueProcessor.httpMethodIsQueueable(request.method()) ){
-            log.warn( "Ignore enqueue of unsupported HTTP method in '{} {}'.", request.method() , request.uri());
+        if( !QueueProcessor.httpMethodIsQueueable(queuedRequest.getMethod()) ){
+            log.warn( "Ignore enqueue of unsupported HTTP method in '{} {}'.", queuedRequest.getMethod() , queuedRequest.getUri());
+            doneHandler.handle(null);
             return;
         }
         vertx.eventBus().send(getRedisquesAddress(), buildEnqueueOperation(queue, queuedRequest.toJsonObject().put(QUEUE_TIMESTAMP, System.currentTimeMillis()).encode()),
