@@ -151,7 +151,7 @@ public class QueueProcessor {
             case PUT:
             case POST:
             case DELETE:
-//            case OPTIONS:
+            case OPTIONS:
             case PATCH:
                 result = true;
                 break;

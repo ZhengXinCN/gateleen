@@ -123,7 +123,7 @@ public class HookHandlerTest {
             @Override
             public boolean matches(Object argument) {
                 HttpRequest req = (HttpRequest) argument;
-                return PUT == req.getMethod()
+                return HttpMethod.PUT == req.getMethod()
                         && req.getUri().contains(uri)
                         && new Integer(99).equals(getInteger(req.getHeaders(), CONTENT_LENGTH)) // Content-Length header should not have changed
                         && Arrays.equals(req.getPayload(), Buffer.buffer(originalPayload).getBytes()); // payload should not have changed
@@ -151,7 +151,7 @@ public class HookHandlerTest {
             @Override
             public boolean matches(Object argument) {
                 HttpRequest req = (HttpRequest) argument;
-                return PUT == req.getMethod()
+                return HttpMethod.PUT == req.getMethod()
                         && req.getUri().contains(uri)
                         && new Integer(99).equals(getInteger(req.getHeaders(), CONTENT_LENGTH)) // Content-Length header should not have changed
                         && Arrays.equals(req.getPayload(), Buffer.buffer(originalPayload).getBytes()); // payload should not have changed
@@ -179,7 +179,7 @@ public class HookHandlerTest {
             @Override
             public boolean matches(Object argument) {
                 HttpRequest req = (HttpRequest) argument;
-                return PUT == req.getMethod()
+                return HttpMethod.PUT == req.getMethod()
                         && req.getUri().contains(uri)
                         && new Integer(0).equals(getInteger(req.getHeaders(), CONTENT_LENGTH))
                         && Arrays.equals(req.getPayload(), new byte[0]); // should not be original payload anymore
@@ -194,7 +194,7 @@ public class HookHandlerTest {
             @Override
             public boolean matches(Object argument) {
                 HttpRequest req = (HttpRequest) argument;
-                return PUT == req.getMethod()
+                return HttpMethod.PUT == req.getMethod()
                         && req.getUri().contains(uri)
                         && !containsHeader(req.getHeaders(), CONTENT_LENGTH)
                         && Arrays.equals(req.getPayload(), new byte[0]); // should not be original payload anymore
@@ -247,7 +247,7 @@ public class HookHandlerTest {
 
         String targetUri = "/playground/server/push/v1/devices/"+deviceId+"/playground/server/tests/hooktest/abc123";
         Mockito.verify(reducedPropagationManager, Mockito.timeout(2000).times(1))
-                .processIncomingRequest(eq(PUT), eq(targetUri), any(MultiMap.class), eq(Buffer.buffer(originalPayload)), eq(queue), eq(interval), any(Handler.class));
+                .processIncomingRequest(eq(HttpMethod.PUT), eq(targetUri), any(MultiMap.class), eq(Buffer.buffer(originalPayload)), eq(queue), eq(interval), any(Handler.class));
     }
 
     @Test
@@ -270,7 +270,7 @@ public class HookHandlerTest {
             @Override
             public boolean matches(Object argument) {
                 HttpRequest req = (HttpRequest) argument;
-                return PUT == req.getMethod()
+                return HttpMethod.PUT == req.getMethod()
                         && req.getUri().contains(uri)
                         && new Integer(99).equals(getInteger(req.getHeaders(), CONTENT_LENGTH)) // Content-Length header should not have changed
                         && Arrays.equals(req.getPayload(), Buffer.buffer(originalPayload).getBytes()); // payload should not have changed
@@ -308,7 +308,7 @@ public class HookHandlerTest {
             // Do NOT set to -1. Because that would be a valid value representing 'infinite'.
             requestHeaders.set(ExpiryCheckHandler.EXPIRE_AFTER_HEADER, "-42");
             final Buffer requestBody = createMinimalHookBodyAsBuffer();
-            request = createSimpleRequest(PUT, "/gateleen/example/_hooks/listeners/http/my-service/my-hook",
+            request = createSimpleRequest(HttpMethod.PUT, "/gateleen/example/_hooks/listeners/http/my-service/my-hook",
                     requestHeaders, requestBody, statusCodePtr, statusMessagePtr
             );
         }
@@ -342,7 +342,7 @@ public class HookHandlerTest {
             final MultiMap requestHeaders = new CaseInsensitiveHeaders();
             requestHeaders.set(ExpiryCheckHandler.EXPIRE_AFTER_HEADER, "This is definitively not a number :)");
             final Buffer requestBody = createMinimalHookBodyAsBuffer();
-            request = createSimpleRequest(PUT, "/gateleen/example/_hooks/listeners/http/my-service/my-fancy-hook",
+            request = createSimpleRequest(HttpMethod.PUT, "/gateleen/example/_hooks/listeners/http/my-service/my-fancy-hook",
                     requestHeaders, requestBody, statusCodePtr, statusMessagePtr
             );
         }
@@ -372,7 +372,7 @@ public class HookHandlerTest {
             final MultiMap requestHeaders = new CaseInsensitiveHeaders();
             // Do NOT set any header here.
             final Buffer requestBody = createMinimalHookBodyAsBuffer();
-            request = createSimpleRequest(PUT, "/gateleen/example/_hooks/listeners/http/my-service/yet-another-hook",
+            request = createSimpleRequest(HttpMethod.PUT, "/gateleen/example/_hooks/listeners/http/my-service/yet-another-hook",
                     requestHeaders, requestBody, statusCodePtr, statusMessagePtr
             );
         }
@@ -402,7 +402,7 @@ public class HookHandlerTest {
             final MultiMap requestHeaders = new CaseInsensitiveHeaders();
             requestHeaders.set(ExpiryCheckHandler.EXPIRE_AFTER_HEADER, "-1");
             final Buffer requestBody = createMinimalHookBodyAsBuffer();
-            request = createSimpleRequest(PUT, "/gateleen/example/_hooks/listeners/http/my-service/and-one-more-again-hook",
+            request = createSimpleRequest(HttpMethod.PUT, "/gateleen/example/_hooks/listeners/http/my-service/and-one-more-again-hook",
                     requestHeaders, requestBody, statusCodePtr, statusMessagePtr
             );
         }
@@ -572,18 +572,6 @@ public class HookHandlerTest {
         return requestBody;
     }
 
-    /**
-     * @return
-     *      A simple hook body as a JSON wrapped in a {@link Buffer}.
-     */
-    private JsonObject createMinimalHookAsJsonObject() {
-        return new JsonObject("{" +
-                "    \"methods\": [ \"PUT\" , \"DELETE\" ]," +
-                "    \"destination\": \"/an/example/destination/\"" +
-                "}"
-        );
-    }
-
     private Buffer toBuffer(JsonObject jsonObject) {
         final Buffer buffer = new BufferImpl();
         buffer.setBytes(0, jsonObject.toString().getBytes() );
@@ -602,7 +590,7 @@ public class HookHandlerTest {
         }
 
         @Override public HttpMethod method() {
-            return PUT;
+            return HttpMethod.PUT;
         }
         @Override public String uri() {
             return uri;
