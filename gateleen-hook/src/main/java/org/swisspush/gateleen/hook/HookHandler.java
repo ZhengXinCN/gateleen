@@ -33,6 +33,7 @@ import org.swisspush.gateleen.logging.LoggingResourceManager;
 import org.swisspush.gateleen.monitoring.MonitoringHandler;
 import org.swisspush.gateleen.queue.expiry.ExpiryCheckHandler;
 import org.swisspush.gateleen.queue.queuing.QueueClient;
+import org.swisspush.gateleen.queue.queuing.QueueProcessor;
 import org.swisspush.gateleen.queue.queuing.RequestQueue;
 import org.swisspush.gateleen.routing.Rule;
 
@@ -1001,6 +1002,7 @@ public class HookHandler implements LoggableResource {
      * @param request request
      */
     private void handleListenerRegistration(final HttpServerRequest request) {
+        final HttpServerResponse response = request.response();
         log.debug("handleListenerRegistration > " + request.uri());
 
         request.bodyHandler(hookData -> {
