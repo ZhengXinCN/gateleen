@@ -77,7 +77,7 @@ public class HttpRequest {
             // 1. Someone is using a (for us) unknown http method (eg someone added a new
             //    one in the enum since this here was written).
             // 2. We explicitly forbid CONNECT, TRACE and OTHER.
-            //    See "https://jira.post.ch/browse/ISAGD-5644".
+            //    See "https://github.com/swisspush/gateleen/issues/249".
             throw new IllegalArgumentException("Request method must be one of GET, HEAD, PUT, POST, DELETE, OPTIONS or PATCH");
         }
         JsonArray headersArray = object.getJsonArray("headers");
