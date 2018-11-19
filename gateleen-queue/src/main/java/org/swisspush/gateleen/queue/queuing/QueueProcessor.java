@@ -133,6 +133,7 @@ public class QueueProcessor {
 
     /**
      * <p>Answers if specified method is valid for queueing.</p>
+     *
      * <p>{@link QueueProcessor} will only be able to deliver requests where
      * {@link HttpRequest#HttpRequest(JsonObject)} will NOT throw. Therefore
      * there's no sense to enqueue a request which we cannot process in
