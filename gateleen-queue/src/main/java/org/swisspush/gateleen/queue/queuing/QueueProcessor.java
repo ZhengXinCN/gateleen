@@ -161,7 +161,7 @@ public class QueueProcessor {
                 // 1. Someone is using a (for us) unknown http method (eg someone added a new
                 //    one in the enum since this here was written).
                 // 2. We explicitly forbid CONNECT, TRACE and OTHER.
-                //    See "https://jira.post.ch/browse/ISAGD-5644".
+                //    See "https://github.com/swisspush/gateleen/issues/249".
                 result = false;
         }
         return result;

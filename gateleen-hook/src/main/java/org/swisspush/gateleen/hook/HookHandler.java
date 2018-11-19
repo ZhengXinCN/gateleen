@@ -1082,7 +1082,7 @@ public class HookHandler implements LoggableResource {
             if( !QueueProcessor.httpMethodIsQueueable( HttpMethod.valueOf((String)method) ) ){
                 final String msg = "Listener registration request tries to hook for forbidden '"+method+"' method.";
                 log.error( msg );
-                badRequest(request, "Bad Request", msg );
+                badRequest(request, "Bad Request", msg+"\n" );
                 return true;
             }
         }
