@@ -1078,12 +1078,14 @@ public class HookHandler implements LoggableResource {
             return true;
         }
         final JsonArray methods = hook.getJsonArray("methods");
-        for (Object method : methods) {
-            if( !QueueProcessor.httpMethodIsQueueable( HttpMethod.valueOf((String)method) ) ){
-                final String msg = "Listener registration request tries to hook for forbidden '"+method+"' method.";
-                log.error( msg );
-                badRequest(request, "Bad Request", msg+"\n" );
-                return true;
+        if( methods != null ){
+            for (Object method : methods) {
+                if( !QueueProcessor.httpMethodIsQueueable( HttpMethod.valueOf((String)method) ) ){
+                    final String msg = "Listener registration request tries to hook for forbidden '"+method+"' method.";
+                    log.error( msg );
+                    badRequest(request, "Bad Request", msg+"\n" );
+                    return true;
+                }
             }
         }
         return false;
