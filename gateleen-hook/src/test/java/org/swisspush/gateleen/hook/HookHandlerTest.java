@@ -492,10 +492,8 @@ public class HookHandlerTest {
             hookHandler.handle(request);
 
             { // Assert request got rejected.
-                testContext.assertTrue(statusCodePtr[0] >= 400);
-                testContext.assertTrue(statusCodePtr[0] <= 499);
+                testContext.assertEquals(400, statusCodePtr[0]);
             }
-
         }
     }
 
